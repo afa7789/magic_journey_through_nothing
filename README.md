@@ -118,5 +118,4 @@ Dodge the falling objects. You have 3 lives. Survive until the progress bar fill
 
 ## Updated screenshot:
 
-<img width="502" height="527" alt="image" src="https://github.com/user-attachments/assets/9385e088-b1fe-452b-b694-858b3f4d04a3" />
-
+![alt text](assets/image.png)
