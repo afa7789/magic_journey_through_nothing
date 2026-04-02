@@ -1,5 +1,0 @@
-Aqui estão as imagens que eu teria usado no fundo mas como ficou muito ruim e travando a movimentação do meu carinha retirei.
-
-Tem o Tp4-teste que foi uma das implementações (não a ultima de teste de fundo) que eu tentei implementar um ambiente de fundo no jogo. Não funcionou e a minha tese do porque é que a placa de vido integrada e o processador do computador que usei para programar eram muito fracas e dessa forma não conseguem processar a mudança conforme era necessária p/ obter o efeito desejado.
-
- O tp4-teste e reespectivamente o tp4 que é o exe tem um 500x500. E estava realmente desagradavel de jogar em meu computador. Portanto o JOGO.exe e a versãofinal.c foram as versões que eu resolvi enviar.

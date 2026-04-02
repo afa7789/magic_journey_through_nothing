@@ -1,49 +1,122 @@
+# Magic Journey Through Nothing
 
+A dodge-the-falling-objects game built with C and OpenGL (FreeGLUT + SOIL).
 
-# Magic Journey Throught Nothing
+![Screenshot](assets/printGame1.png)
 
-## Descrição
+## Setup from Scratch
 
-![alt text](https://github.com/afa7789/simple-game-fall-stuff/blob/master/printGame1.png)
+### macOS (Homebrew)
 
-Magic Journey é apenas um jogo simples, de desviar de objetos que caem de cima, foi feito em .c e opengl, com algumas outras blibiotecas como soil e etc. E foi a primeira experiência complicada que tive de programação. Obviamente é um programa sem muita documentação, e com escopo reduzido
+```bash
+# 1. Install Homebrew (if you don't have it)
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-## Pré Requisitos
+# 2. Install dependencies
+brew install gcc glew freeglut pkg-config
 
-- opengl
-- soil
-- etc
+# 3. Build and install SOIL (not available via Homebrew)
+cd /tmp
+git clone https://github.com/littlstar/soil.git
+cd soil
+./configure && make
+cp build/lib/libSOIL.a "$(brew --prefix)/lib/"
+cp build/lib/libSOIL.0.1.dylib "$(brew --prefix)/lib/"
+ln -sf libSOIL.0.1.dylib "$(brew --prefix)/lib/libSOIL.dylib"
+mkdir -p "$(brew --prefix)/include/SOIL"
+cp build/include/SOIL/*.h "$(brew --prefix)/include/SOIL/"
+cd -
 
-## Rodando o Jogo 
+# 4. Clone and build the game
+git clone https://github.com/afa7789/refactor_first_game.git
+cd refactor_first_game
+make all
+make run
+```
 
-como Rodar o Jogo no windows:
+### Ubuntu / Debian
 
-`gcc tp1_teste4.c -o tp4 -D FREEGLUT_STATIC -lSOIL -lfreeglut_static -lopengl32 -lwinmm -lgdi32 -Wl,--subsystem,windows`
+```bash
+# 1. Install dependencies
+sudo apt update
+sudo apt install gcc make libglew-dev freeglut3-dev libsoil-dev
 
-como rodar o jogo no linux:
+# 2. Clone and build
+git clone https://github.com/afa7789/refactor_first_game.git
+cd refactor_first_game
+make all
+make run
+```
 
-`ainda não o fiz`
+### Windows (MinGW)
 
-## Commandos do Jogo:
+```bash
+# 1. Install MSYS2 from https://www.msys2.org/
+# 2. In MSYS2 terminal:
+pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-glew mingw-w64-x86_64-freeglut make
 
-p > o jogo é pausado.
+# 3. Install SOIL manually:
+#    Download from https://github.com/littlstar/soil
+#    Build with: ./configure && make
+#    Copy libSOIL.a to your MinGW lib directory
+#    Copy SOIL/*.h to your MinGW include directory
 
-r clicado duas vezes >  o jogo é reiniciado.
+# 4. Clone and build
+git clone https://github.com/afa7789/refactor_first_game.git
+cd refactor_first_game
+make all
+make run
+```
 
-esc > uma vez o jogo é desligado.
+## Make Targets
 
-TECLA S >> aumenta dificuldade colocando mais quadrados a cair. (Growth Hack)
+| Command | Description |
+|---------|-------------|
+| `make all` | Compile the game |
+| `make run` | Compile and run |
+| `make test` | Run unit tests (25 tests) |
+| `make lint` | Static analysis (requires `cppcheck`) |
+| `make clean` | Remove build artifacts |
 
-## Como Jogar: 
+## Controls
 
-Desvie de tudo, vai morrer quando ser acertado depois de X vezes.
+| Key | Action |
+|-----|--------|
+| `A` / `D` | Move left / right |
+| `P` | Pause / Unpause |
+| `R` (press twice) | Restart game |
+| `S` | Increase difficulty (more falling objects) |
+| `ESC` | Quit |
 
-### Observação :
+## How to Play
 
-Na pasta imagens de fundo estão as imagens que eu teria usado no fundo mas como ficou muito ruim e travando a movimentação do meu carinha retirei.
+Dodge the falling objects. You have 3 lives. Survive until the progress bar fills to win.
 
-Tem o Tp4-teste que foi uma das implementações (não a ultima de teste de fundo) que eu tentei implementar um ambiente de fundo no jogo. Não funcionou e a minha tese do porque é que a placa de vido integrada e o processador do computador que usei para programar eram muito fracas e dessa forma não conseguem processar a mudança conforme era necessária p/ obter o efeito desejado ruim.
+## Project Structure
 
-O tp4-teste e reespectivamente o tp4 que é o exe tem um 500x500. E estava realmente desagradavel de jogar em meu computador.
+```
+├── Makefile              # Build system
+├── include/              # Headers
+│   ├── config.h          # Game constants
+│   ├── types.h           # Point, Size types
+│   ├── game.h            # Game state and lifecycle
+│   ├── physics.h         # Movement, collision, spawning
+│   ├── input.h           # Keyboard handling
+│   └── renderer.h        # OpenGL rendering
+├── src/                  # Source
+│   ├── main.c            # Entry point, GLUT setup
+│   ├── game.c            # State management
+│   ├── physics.c         # Physics (no GL dependency)
+│   ├── input.c           # Input handling
+│   └── renderer.c        # All OpenGL drawing
+├── assets/               # Textures (PNG)
+├── tests/                # Unit tests (Unity framework)
+│   ├── test_game.c       # 16 game state tests
+│   └── test_physics.c    # 9 collision/movement tests
+└── vendor/unity/         # Unity C test framework
+```
 
-Portanto o JOGO.exe e a versãofinal.c foram as versões que eu resolvi enviar.
+## Updated screenshot:
+
+<img width="502" height="527" alt="image" src="https://github.com/user-attachments/assets/9385e088-b1fe-452b-b694-858b3f4d04a3" />
+
